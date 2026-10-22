@@ -1,0 +1,225 @@
+# VERITAS — Presentation Runbook & Demonstration Guide
+
+This runbook provides the verified, step-by-step procedures for launching, operating, demonstrating, and troubleshooting the VERITAS Deepfake Detection System for the college presentation.
+
+---
+
+## 1. System Architecture & Topology
+
+```
+   ┌──────────────────────────────────────────────────────────────┐
+   │                  Browser Client (:5173)                      │
+   │  React 19 + Vite 7 + Tailwind CSS (Interactive Console)      │
+   └──────────────────────────────┬───────────────────────────────┘
+                                  │  /api/* (Vite proxy)
+                                  ▼
+   ┌──────────────────────────────────────────────────────────────┐
+   │               BFF Proxy Server (:3001)                       │
+   │  Node.js Express — Multipart handling, SSE Stream bridge     │
+   └──────────────────────────────┬───────────────────────────────┘
+                                  │  /analyse/stream (HTTP POST)
+                                  ▼
+   ┌──────────────────────────────────────────────────────────────┐
+   │               Inference Backend (:8000)                      │
+   │  FastAPI + PyTorch 2.6 (Python 3.10)                         │
+   ├──────────────────────────────┬───────────────────────────────┤
+   │  Spatial Agent               │ EfficientNet-B0 + GradCAM     │
+   │  Temporal Agent              │ R3D-18 (16-frame 3D CNN)      │
+   │  Audio Agent                 │ EfficientNet-B0 Mel-Spec      │
+   │  Context Agent               │ Cross-modal consistency logic │
+   │  Fusion Policy               │ corrected_fixed (Default)     │
+   └──────────────────────────────┴───────────────────────────────┘
+```
+
+---
+
+## 2. Prerequisites & Verification
+
+Before launching the services, verify the required tools are present:
+
+### 2.1 Python Environment
+* Python **3.10** is required for PyTorch checkpoint compatibility.
+* On Windows systems with multiple Python versions installed, use `py -3.10` to target Python 3.10.
+* Verify PyTorch is available:
+  ```powershell
+  py -3.10 -c "import torch; print('PyTorch:', torch.__version__)"
+  ```
+
+### 2.2 Node.js Environment
+* Node.js **18+** (Node 20+ recommended) with npm.
+* Verify Node.js and npm:
+  ```powershell
+  node -v
+  npm -v
+  ```
+
+### 2.3 FFmpeg
+* FFmpeg must be installed on the system PATH for container probing and audio extraction:
+  ```powershell
+  ffmpeg -version
+  ```
+
+### 2.4 Verify Trained Checkpoints
+Check that the three neural checkpoints are in `veritas/backend/models/`:
+* `spatial_agent.pth` (~52.5 MB)
+* `temporal_agent_checkpoint.pth` (~398.1 MB)
+* `audio_agent_checkpoint.pth` (~16.3 MB)
+
+---
+
+## 3. Exact Startup Commands (Three Terminals)
+
+Open three separate PowerShell terminals and run each service in its dedicated directory:
+
+### Terminal 1 — Backend (FastAPI + PyTorch)
+```powershell
+cd veritas/backend
+py -3.10 main.py
+```
+* **Expected Port**: `8000`
+* **Success Output**:
+  ```
+  INFO:     Application startup complete.
+  INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+  ```
+
+### Terminal 2 — API Proxy (Express BFF)
+```powershell
+cd veritas/proxy
+node server.js
+```
+* **Expected Port**: `3001`
+* **Success Output**:
+  ```
+  [VERITAS proxy] listening on http://localhost:3001
+  ```
+
+### Terminal 3 — Frontend (React + Vite)
+```powershell
+cd veritas/frontend
+npm run dev
+```
+* **Expected Port**: `5173`
+* **Success Output**:
+  ```
+    VITE v7.x ready in ... ms
+    ➜  Local:   http://localhost:5173/
+  ```
+
+---
+
+## 4. Verification & Health Checks
+
+Verify all three tiers are communicating before beginning your presentation:
+
+### 4.1 Backend Health Check
+```powershell
+py -3.10 -c "import urllib.request; print(urllib.request.urlopen('http://localhost:8000/healthz').read().decode())"
+```
+* **Expected Response**: `{"status":"ok"}`
+
+### 4.2 Proxy Health Check
+```powershell
+py -3.10 -c "import urllib.request; print(urllib.request.urlopen('http://localhost:3001/api/health').read().decode())"
+```
+* **Expected Response**: `{"status":"ok","timestamp":"..."}`
+
+### 4.3 Browser Access
+Open Google Chrome or Microsoft Edge and navigate to:
+```
+http://localhost:5173/console
+```
+
+---
+
+## 5. Live Demonstration Procedure
+
+Follow these steps for a clean, glitch-free presentation:
+
+1. **Open the Console**:
+   * Navigate to `http://localhost:5173/console`.
+   * Observe the automated boot sequence:
+     - Spatial Analysis Module loaded (`EfficientNet-B0`)
+     - Temporal Analysis Module loaded (`R3D-18`)
+     - Audio Analysis Module loaded (`MelSpectrogram CNN`)
+     - Context Analysis Module loaded
+     - GradCAM engine initialized
+     - `[READY] VERITAS v1.0 — awaiting media input`
+   * Once complete, the left sidebar becomes interactive.
+
+2. **Select Modality & Upload Media**:
+   * For video demonstrations: Click the **Video** tab in the sidebar.
+   * Click the drop zone or drag-and-drop a sample file (e.g. `veritas/backend/00025_fake.mp4`).
+   * Verify the file name and size appear with the green checkmark ("Content loaded").
+
+3. **Trigger Multi-Agent Analysis**:
+   * Click **Analyse with VERITAS**.
+   * Observe the button transition to `Analysing with Multi-Agent Pipeline...` with an active spinner (duplicate clicks are safely prevented).
+   * Notice the four agent cards executing sequentially in real time:
+     1. **Spatial Analyst**: Evaluates visual frame artifacts via EfficientNet-B0.
+     2. **Temporal Analyst**: Assesses frame-to-frame coherence via R3D-18.
+     3. **Audio Analyst**: Detects speech synthesis artifacts via Mel-Spectrogram CNN.
+     4. **Context Analyst**: Cross-verifies visual-auditory consistency.
+
+4. **Review the Verdict & Category Attribution**:
+   * When inference finishes, the final verdict card appears:
+     - **Headline**: `DEEPFAKE DETECTED` (Red), `AUTHENTIC MEDIA` (Green), or `INCONCLUSIVE — UNCERTAIN` (Amber).
+     - **Attribution Hypothesis**: Displays manipulation subtype (e.g., `VIDEO MANIPULATED`, `AUDIO MANIPULATED`).
+     - **Fused Fake Score**: The composite confidence percentage.
+     - **Category Attribution**: Full calibrated breakdown across categories.
+     - **Dynamic Weights / Decision Thresholds**: Exact mathematical audit trail.
+
+5. **Test Another Sample**:
+   * Click **Verify Another Sample** in the sidebar.
+   * The console resets cleanly to accept new content without reloading the page.
+
+---
+
+## 6. Honest Detection Semantics & Answering Panel Questions
+
+Be prepared to explain the detection semantics to examiners:
+
+1. **Three-State Decision Space**:
+   - `AUTHENTIC`: Fused fake score is decisively below threshold ($\tau_{low}$).
+   - `DEEPFAKE`: Fused fake score is decisively above threshold ($\tau_{high}$).
+   - `UNCERTAIN`: Abstention zone ($[0.45, 0.55]$ deadband). The system abstains rather than falsely claiming authenticity when evidence is borderline.
+
+2. **Why `corrected_fixed` is Production Default**:
+   - Dynamic-denominator fixed-weight fusion correctly weights active modalities ($0.40$ Spatial, $0.30$ Temporal, $0.20$ Audio, $0.10$ Context) while excluding unavailable streams (e.g. videos without audio).
+   - Prevents dilution bugs and guarantees zero false authentic verdicts on missing modalities.
+   - PPO v3 remains experimental in research splits and is disabled in production.
+
+3. **Missing Modality Handling**:
+   - Image uploads mark Temporal as `not_applicable` and Audio as `no_audio`.
+   - Videos without audio streams honestly report Audio as `no_audio` and exclude it from the denominator.
+
+---
+
+## 7. Clean Shutdown & Restart
+
+### 7.1 Graceful Shutdown
+In each of the three terminals, press `Ctrl + C` once.
+
+### 7.2 Resolving Port Conflicts (If a service won't start)
+If a port is already bound, identify and terminate the orphaned process:
+
+```powershell
+# Check for active listeners on VERITAS ports
+netstat -ano | findstr "8000 3001 5173"
+
+# Terminate process by PID (replace <PID> with the number from the last column)
+taskkill /F /PID <PID>
+```
+
+---
+
+## 8. Troubleshooting Guide
+
+| Issue | Cause | Fix |
+|---|---|---|
+| **`python: command not found` or pytest closed-file crash** | System defaulted to experimental Python 3.14 | Launch using `py -3.10 main.py` or run `py -3.10 -m pytest -s` |
+| **Proxy returns `ECONNREFUSED` / 502** | Backend FastAPI server is not running | Start Terminal 1: `cd veritas/backend && py -3.10 main.py` |
+| **Frontend displays "Failed to connect to stream"** | Proxy server on port 3001 is offline | Start Terminal 2: `cd veritas/proxy && node server.js` |
+| **Audio Agent reports `no_audio` on video** | Video container has no audio track | Normal behavior; audio correctly excluded from fusion score |
+| **Large video file times out** | Video exceeds 50MB or CPU decode is slow | Proxy timeout has been extended to 60s; use files under 50MB |
+| **Port 8000 or 3001 already in use** | Stale previous run still bound to port | Run `netstat -ano \| findstr "8000 3001"` and `taskkill /F /PID <PID>` |

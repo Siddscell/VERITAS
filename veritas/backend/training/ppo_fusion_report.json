@@ -1,0 +1,369 @@
+{
+  "test_dataset_size": 239,
+  "evaluation_timestamp": 1792503315.7825885,
+  "checkpoint_evaluated": "models\\ppo_fusion_policy_v2.pth",
+  "systems": {
+    "legacy_fixed_weights": {
+      "accuracy": 0.7029,
+      "balanced_accuracy": 0.8017,
+      "precision": 1.0,
+      "recall": 0.6034,
+      "f1_score": 0.7526,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.3966,
+      "tp": 108,
+      "tn": 60,
+      "fp": 0,
+      "fn": 71,
+      "total_samples": 239
+    },
+    "corrected_fixed_weights": {
+      "accuracy": 0.9707,
+      "balanced_accuracy": 0.9804,
+      "precision": 1.0,
+      "recall": 0.9609,
+      "f1_score": 0.9801,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0391,
+      "tp": 172,
+      "tn": 60,
+      "fp": 0,
+      "fn": 7,
+      "total_samples": 239
+    },
+    "ppo_adaptive_fusion": {
+      "accuracy": 0.9958,
+      "balanced_accuracy": 0.9917,
+      "precision": 0.9944,
+      "recall": 1.0,
+      "f1_score": 0.9972,
+      "false_positive_rate": 0.0167,
+      "false_negative_rate": 0.0,
+      "tp": 179,
+      "tn": 59,
+      "fp": 1,
+      "fn": 0,
+      "total_samples": 239,
+      "multiclass": {
+        "confusion_matrix": [
+          [
+            59,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            60,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            60,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            59
+          ]
+        ],
+        "per_category": {
+          "AUTHENTIC": {
+            "ground_truth_count": 60,
+            "precision": 1.0,
+            "recall": 0.9833,
+            "f1_score": 0.9916
+          },
+          "AUDIO_MANIPULATED": {
+            "ground_truth_count": 60,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0
+          },
+          "VIDEO_MANIPULATED": {
+            "ground_truth_count": 60,
+            "precision": 0.9836,
+            "recall": 1.0,
+            "f1_score": 0.9917
+          },
+          "AUDIO_VIDEO_MANIPULATED": {
+            "ground_truth_count": 59,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0
+          }
+        },
+        "macro_f1": 0.9958
+      },
+      "latency_ms": {
+        "mean": 1.1,
+        "p95": 1.55,
+        "p99": 2.47
+      }
+    },
+    "subgroup_analysis": {
+      "audio_manipulated_only": {
+        "subset_name": "Audio Manipulated Only (Real Video, Fake Audio)",
+        "sample_count": 60,
+        "legacy": {
+          "accuracy": 0.0333,
+          "balanced_accuracy": 0.0167,
+          "precision": 1.0,
+          "recall": 0.0333,
+          "f1_score": 0.0645,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.9667,
+          "tp": 2,
+          "tn": 0,
+          "fp": 0,
+          "fn": 58,
+          "total_samples": 60
+        },
+        "corrected_fixed": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "tp": 60,
+          "tn": 0,
+          "fp": 0,
+          "fn": 0,
+          "total_samples": 60
+        },
+        "ppo": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "tp": 60,
+          "tn": 0,
+          "fp": 0,
+          "fn": 0,
+          "total_samples": 60
+        }
+      },
+      "video_manipulated_only": {
+        "subset_name": "Video Manipulated Only (Fake Video, Real Audio)",
+        "sample_count": 60,
+        "legacy": {
+          "accuracy": 0.7833,
+          "balanced_accuracy": 0.3917,
+          "precision": 1.0,
+          "recall": 0.7833,
+          "f1_score": 0.8785,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.2167,
+          "tp": 47,
+          "tn": 0,
+          "fp": 0,
+          "fn": 13,
+          "total_samples": 60
+        },
+        "corrected_fixed": {
+          "accuracy": 0.8833,
+          "balanced_accuracy": 0.4417,
+          "precision": 1.0,
+          "recall": 0.8833,
+          "f1_score": 0.9381,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.1167,
+          "tp": 53,
+          "tn": 0,
+          "fp": 0,
+          "fn": 7,
+          "total_samples": 60
+        },
+        "ppo": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "tp": 60,
+          "tn": 0,
+          "fp": 0,
+          "fn": 0,
+          "total_samples": 60
+        }
+      },
+      "dual_manipulated": {
+        "subset_name": "Audio & Video Manipulated (Fully Synthetic)",
+        "sample_count": 59,
+        "legacy": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "tp": 59,
+          "tn": 0,
+          "fp": 0,
+          "fn": 0,
+          "total_samples": 59
+        },
+        "corrected_fixed": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "tp": 59,
+          "tn": 0,
+          "fp": 0,
+          "fn": 0,
+          "total_samples": 59
+        },
+        "ppo": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 0.5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "tp": 59,
+          "tn": 0,
+          "fp": 0,
+          "fn": 0,
+          "total_samples": 59
+        }
+      },
+      "authentic_media": {
+        "subset_name": "Authentic Media (Real Video, Real Audio)",
+        "sample_count": 60,
+        "legacy": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 0.5,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "tp": 0,
+          "tn": 60,
+          "fp": 0,
+          "fn": 0,
+          "total_samples": 60
+        },
+        "corrected_fixed": {
+          "accuracy": 1.0,
+          "balanced_accuracy": 0.5,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0,
+          "tp": 0,
+          "tn": 60,
+          "fp": 0,
+          "fn": 0,
+          "total_samples": 60
+        },
+        "ppo": {
+          "accuracy": 0.9833,
+          "balanced_accuracy": 0.4917,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0,
+          "false_positive_rate": 0.0167,
+          "false_negative_rate": 0.0,
+          "tp": 0,
+          "tn": 59,
+          "fp": 1,
+          "fn": 0,
+          "total_samples": 60
+        }
+      },
+      "missing_modality": {}
+    }
+  },
+  "diagnostic_sample_evaluation": {
+    "sample_path": "D:\\VERITAS_TRAINING\\data\\FakeAVCeleb_v1.2\\FakeAVCeleb_v1.2\\RealVideo-FakeAudio\\Asian (East)\\women\\id06462\\00014_fake.mp4",
+    "agents": [
+      {
+        "agent": "Spatial Analysis",
+        "confidence": 0.0008,
+        "is_fake": false,
+        "status": "trained",
+        "finding": "No significant visual inconsistencies detected. EfficientNet-B0 assigned 0.1% fake probability \u2014 below the 0.50 decision threshold, consistent with authentic media."
+      },
+      {
+        "agent": "Temporal Analysis",
+        "confidence": 0.0001,
+        "is_fake": false,
+        "status": "trained",
+        "finding": "No significant temporal inconsistencies across 16 sampled frames. R3D-18 assigned 0.0% fake probability \u2014 below the 0.05 decision threshold."
+      },
+      {
+        "agent": "Audio Analysis",
+        "confidence": 1.0,
+        "is_fake": true,
+        "status": "trained",
+        "finding": "Synthesized speech artifacts detected. Unnatural frequency patterns and formant transitions inconsistent with organic vocal production."
+      },
+      {
+        "agent": "Context Verification",
+        "confidence": 0.99,
+        "is_fake": true,
+        "status": "trained",
+        "finding": "Cross-modal inconsistency detected: the visual stream appears authentic (P=0%) while the audio stream appears synthetic (P=100%). This modality mismatch is a strong indicator of partial manipulation."
+      }
+    ],
+    "legacy": {
+      "verdict": "AUTHENTIC",
+      "overall_confidence": 0.2994,
+      "contributing": [
+        "Spatial Analysis",
+        "Temporal Analysis",
+        "Audio Analysis",
+        "Context Verification"
+      ]
+    },
+    "corrected_fixed": {
+      "verdict": "DEEPFAKE",
+      "overall_confidence": 1.0,
+      "contributing": [
+        "Spatial Analysis",
+        "Temporal Analysis",
+        "Audio Analysis",
+        "Context Verification"
+      ],
+      "p_visual": 0.0004999999655410647,
+      "p_audio": 1.0
+    },
+    "ppo_adaptive": {
+      "verdict": "DEEPFAKE",
+      "overall_confidence": 0.9324,
+      "predicted_category": "AUDIO_MANIPULATED",
+      "category_probabilities": {
+        "AUTHENTIC": 0.0676,
+        "AUDIO_MANIPULATED": 0.9322,
+        "VIDEO_MANIPULATED": 0.0001,
+        "AUDIO_VIDEO_MANIPULATED": 0.0001
+      },
+      "dynamic_weights": {
+        "spatial": 0.5028,
+        "temporal": 0.4972,
+        "audio": 0.5052
+      },
+      "decision_threshold": 0.4983,
+      "mismatch_score": 0.7522
+    }
+  }
+}

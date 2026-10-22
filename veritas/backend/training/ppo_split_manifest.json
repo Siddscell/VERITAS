@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "dataset_name": "FakeAVCeleb v1.2",
+    "dataset_root": "D:\\VERITAS_TRAINING\\data\\FakeAVCeleb_v1.2\\FakeAVCeleb_v1.2",
+    "total_files_on_disk": 21560,
+    "total_unique_identities": 500,
+    "seed": 42,
+    "train_ratio": 0.8,
+    "val_ratio": 0.1,
+    "test_ratio": 0.1
+  },
+  "split_counts": {
+    "train": {
+      "identities": 400,
+      "total_files": 17141,
+      "by_category": {
+        "FakeVideo-FakeAudio": 8613,
+        "FakeVideo-RealAudio": 7728,
+        "RealVideo-FakeAudio": 400,
+        "RealVideo-RealAudio": 400
+      }
+    },
+    "validation": {
+      "identities": 50,
+      "total_files": 2251,
+      "by_category": {
+        "FakeVideo-FakeAudio": 1172,
+        "FakeVideo-RealAudio": 979,
+        "RealVideo-FakeAudio": 50,
+        "RealVideo-RealAudio": 50
+      }
+    },
+    "test": {
+      "identities": 50,
+      "total_files": 2168,
+      "by_category": {
+        "FakeVideo-FakeAudio": 1066,
+        "FakeVideo-RealAudio": 1002,
+        "RealVideo-FakeAudio": 50,
+        "RealVideo-RealAudio": 50
+      }
+    }
+  },
+  "diagnostic_samples": [
+    {
+      "rel_path": "RealVideo-FakeAudio/Asian (East)/women/id00363/00014_fake.mp4",
+      "abs_path": "D:\\VERITAS_TRAINING\\data\\FakeAVCeleb_v1.2\\FakeAVCeleb_v1.2\\RealVideo-FakeAudio\\Asian (East)\\women\\id00363\\00014_fake.mp4",
+      "size_bytes": 134443,
+      "sha256": "a7a6ba882c66f235a6d9f070e9a686c2e04e575067f7a4e10f7b473f623c61b2",
+      "identity": "id00363",
+      "category": "RealVideo-FakeAudio"
+    },
+    {
+      "rel_path": "RealVideo-FakeAudio/Asian (East)/women/id06462/00014_fake.mp4",
+      "abs_path": "D:\\VERITAS_TRAINING\\data\\FakeAVCeleb_v1.2\\FakeAVCeleb_v1.2\\RealVideo-FakeAudio\\Asian (East)\\women\\id06462\\00014_fake.mp4",
+      "size_bytes": 140870,
+      "sha256": "8beab438a1f247bc13333ba093307ddcfdd0d8103850b4b28decc44afdbbaa6e",
+      "identity": "id06462",
+      "category": "RealVideo-FakeAudio"
+    },
+    {
+      "rel_path": "RealVideo-FakeAudio/Asian (South)/men/id07194/00014_fake.mp4",
+      "abs_path": "D:\\VERITAS_TRAINING\\data\\FakeAVCeleb_v1.2\\FakeAVCeleb_v1.2\\RealVideo-FakeAudio\\Asian (South)\\men\\id07194\\00014_fake.mp4",
+      "size_bytes": 148608,
+      "sha256": "7a7ba8a22a3e98f3699c939d98178339cd7fdaf58d66ee3d1e68cc372aa8fcd3",
+      "identity": "id07194",
+      "category": "RealVideo-FakeAudio"
+    },
+    {
+      "rel_path": "RealVideo-FakeAudio/Caucasian (European)/men/id00498/00014_fake.mp4",
+      "abs_path": "D:\\VERITAS_TRAINING\\data\\FakeAVCeleb_v1.2\\FakeAVCeleb_v1.2\\RealVideo-FakeAudio\\Caucasian (European)\\men\\id00498\\00014_fake.mp4",
+      "size_bytes": 124277,
+      "sha256": "a0d422c04559d6e45aea5f7d2451657e3929cc4afc4eaa1ee1c3d292b3724f9f",
+      "identity": "id00498",
+      "category": "RealVideo-FakeAudio"
+    },
+    {
+      "rel_path": "RealVideo-FakeAudio/Caucasian (European)/women/id00071/00014_fake.mp4",
+      "abs_path": "D:\\VERITAS_TRAINING\\data\\FakeAVCeleb_v1.2\\FakeAVCeleb_v1.2\\RealVideo-FakeAudio\\Caucasian (European)\\women\\id00071\\00014_fake.mp4",
+      "size_bytes": 195698,
+      "sha256": "9b7bd55032a087a3c1d47911357c9fb686c41ea25682beadcc855d9e9a9f268a",
+      "identity": "id00071",
+      "category": "RealVideo-FakeAudio"
+    }
+  ]
+}

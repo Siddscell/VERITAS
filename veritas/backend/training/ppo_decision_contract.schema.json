@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veritas.local/schemas/ppo_decision_contract.schema.json",
+  "title": "VERITAS Fusion Decision Contract",
+  "description": "Machine-readable output contract for binary verdict, four-category attribution, and selective evaluation. category_probabilities are model-implied unless category_probabilities_calibrated is true.",
+  "type": "object",
+  "required": [
+    "verdict",
+    "verdict_class",
+    "fake_probability",
+    "predicted_category",
+    "category_probabilities",
+    "decision_thresholds",
+    "is_abstention"
+  ],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "description": "Human-facing verdict string from the fusion policy (may include 'UNCERTAIN / INSUFFICIENT EVIDENCE')."
+    },
+    "verdict_class": {
+      "type": "string",
+      "enum": ["AUTHENTIC", "DEEPFAKE", "UNCERTAIN", "UNVERIFIED"],
+      "description": "Normalized operating decision. UNCERTAIN/UNVERIFIED are abstentions, never authentic predictions."
+    },
+    "is_abstention": {
+      "type": "boolean",
+      "description": "True when verdict_class is UNCERTAIN or UNVERIFIED."
+    },
+    "overall_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Backward-compatible alias of the fused fake score (same numeric meaning as fake_probability)."
+    },
+    "fake_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "P(fake) = P(AUDIO_MANIPULATED)+P(VIDEO_MANIPULATED)+P(AUDIO_VIDEO_MANIPULATED) when a valid normalized four-category distribution is available."
+    },
+    "decision_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Strength of the binary operating decision; 0 inside the abstention band. Distinct from fake_probability."
+    },
+    "decision_threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Center operating point tau."
+    },
+    "decision_thresholds": {
+      "type": "object",
+      "required": ["tau", "tau_low", "tau_high", "deadband"],
+      "properties": {
+        "tau": { "type": "number" },
+        "tau_low": { "type": "number" },
+        "tau_high": { "type": "number" },
+        "deadband": { "type": "number" }
+      },
+      "description": "Frozen operating points. PPO: tau=clip(0.50+0.15*tanh(a4),0.35,0.65), deadband=0.05. corrected_fixed: tau=0.50, cuts at 0.45/0.55."
+    },
+    "predicted_category": {
+      "type": "string",
+      "enum": [
+        "AUTHENTIC",
+        "AUDIO_MANIPULATED",
+        "VIDEO_MANIPULATED",
+        "AUDIO_VIDEO_MANIPULATED",
+        "UNVERIFIED"
+      ],
+      "description": "Leading category. Under abstention this is a hypothesis only (leading_category_is_hypothesis=true)."
+    },
+    "leading_category_is_hypothesis": {
+      "type": "boolean",
+      "description": "True when the binary verdict abstains; category must not be displayed as a definitive authenticity claim."
+    },
+    "category_probabilities": {
+      "type": "object",
+      "required": [
+        "AUTHENTIC",
+        "AUDIO_MANIPULATED",
+        "VIDEO_MANIPULATED",
+        "AUDIO_VIDEO_MANIPULATED"
+      ],
+      "properties": {
+        "AUTHENTIC": { "type": "number", "minimum": 0, "maximum": 1 },
+        "AUDIO_MANIPULATED": { "type": "number", "minimum": 0, "maximum": 1 },
+        "VIDEO_MANIPULATED": { "type": "number", "minimum": 0, "maximum": 1 },
+        "AUDIO_VIDEO_MANIPULATED": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "description": "Normalized four-category distribution (sum ≈ 1)."
+    },
+    "category_probabilities_calibrated": {
+      "type": "boolean",
+      "description": "False unless external validation calibration has been measured and frozen."
+    },
+    "p_visual": { "type": ["number", "null"] },
+    "p_audio": { "type": ["number", "null"] },
+    "mismatch_score": {
+      "type": "number",
+      "description": "Cross-modal inconsistency |P_v - P_a|; distinct from fake_probability."
+    },
+    "dynamic_weights": {
+      "type": "object",
+      "properties": {
+        "spatial": { "type": "number" },
+        "temporal": { "type": "number" },
+        "audio": { "type": "number" }
+      }
+    },
+    "contributing_agents": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "unavailable_agents": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "method": {
+      "type": "string",
+      "enum": ["corrected_fixed", "ppo", "legacy"]
+    }
+  },
+  "examples": [
+    {
+      "verdict": "UNCERTAIN / INSUFFICIENT EVIDENCE",
+      "verdict_class": "UNCERTAIN",
+      "is_abstention": true,
+      "overall_confidence": 0.5089,
+      "fake_probability": 0.5089,
+      "decision_confidence": 0.0,
+      "decision_threshold": 0.5405,
+      "decision_thresholds": {
+        "tau": 0.5405,
+        "tau_low": 0.4905,
+        "tau_high": 0.5905,
+        "deadband": 0.05
+      },
+      "predicted_category": "AUDIO_MANIPULATED",
+      "leading_category_is_hypothesis": true,
+      "category_probabilities": {
+        "AUTHENTIC": 0.4911,
+        "AUDIO_MANIPULATED": 0.42,
+        "VIDEO_MANIPULATED": 0.05,
+        "AUDIO_VIDEO_MANIPULATED": 0.0389
+      },
+      "category_probabilities_calibrated": false,
+      "method": "ppo",
+      "contributing_agents": [
+        "Spatial Analysis",
+        "Temporal Analysis",
+        "Audio Analysis",
+        "Context Verification"
+      ],
+      "unavailable_agents": []
+    },
+    {
+      "verdict": "AUTHENTIC",
+      "verdict_class": "AUTHENTIC",
+      "is_abstention": false,
+      "overall_confidence": 0.12,
+      "fake_probability": 0.12,
+      "decision_confidence": 0.7333,
+      "decision_threshold": 0.5,
+      "decision_thresholds": {
+        "tau": 0.5,
+        "tau_low": 0.45,
+        "tau_high": 0.55,
+        "deadband": 0.05
+      },
+      "predicted_category": "AUTHENTIC",
+      "leading_category_is_hypothesis": false,
+      "category_probabilities": {
+        "AUTHENTIC": 0.88,
+        "AUDIO_MANIPULATED": 0.04,
+        "VIDEO_MANIPULATED": 0.05,
+        "AUDIO_VIDEO_MANIPULATED": 0.03
+      },
+      "category_probabilities_calibrated": false,
+      "method": "corrected_fixed"
+    }
+  ]
+}

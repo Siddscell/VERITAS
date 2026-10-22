@@ -1,0 +1,156 @@
+{
+  "dataset": "FakeAVCeleb_v1.2",
+  "split": "final_test",
+  "total_samples": 217,
+  "metrics": {
+    "legacy_fixed": {
+      "tp": 104,
+      "tn": 50,
+      "fp": 0,
+      "fn": 63,
+      "accuracy": 0.7096774193548387,
+      "precision": 1.0,
+      "recall": 0.6227544910179641,
+      "f1": 0.7675276752767528,
+      "specificity": 1.0,
+      "balanced_accuracy": 0.811377245508982,
+      "ci_95": [
+        0.646053503799813,
+        0.766006835422516
+      ]
+    },
+    "corrected_fixed": {
+      "tp": 159,
+      "tn": 50,
+      "fp": 0,
+      "fn": 8,
+      "accuracy": 0.9631336405529954,
+      "precision": 1.0,
+      "recall": 0.9520958083832335,
+      "f1": 0.9754601226993864,
+      "specificity": 1.0,
+      "balanced_accuracy": 0.9760479041916168,
+      "ci_95": [
+        0.9289523031640827,
+        0.9812029516017211
+      ]
+    },
+    "ppo_v2": {
+      "tp": 166,
+      "tn": 48,
+      "fp": 2,
+      "fn": 1,
+      "accuracy": 0.9861751152073732,
+      "precision": 0.9880952380952381,
+      "recall": 0.9940119760479041,
+      "f1": 0.991044776119403,
+      "specificity": 0.96,
+      "balanced_accuracy": 0.9770059880239521,
+      "ci_95": [
+        0.9601492684756188,
+        0.9952873422486825
+      ]
+    }
+  },
+  "mcnemar": {
+    "b_corrected_only": 2,
+    "c_ppo_only": 7,
+    "stat": 1.7777777777777777,
+    "significant_at_p05": false
+  },
+  "category_summary": {
+    "RealVideo-RealAudio": {
+      "count": 50,
+      "leg_acc": 1.0,
+      "corr_acc": 1.0,
+      "ppo_acc": 0.96
+    },
+    "RealVideo-FakeAudio": {
+      "count": 50,
+      "leg_acc": 0.02,
+      "corr_acc": 1.0,
+      "ppo_acc": 1.0
+    },
+    "FakeVideo-RealAudio": {
+      "count": 72,
+      "leg_acc": 0.8055555555555556,
+      "corr_acc": 0.8888888888888888,
+      "ppo_acc": 0.9861111111111112
+    },
+    "FakeVideo-FakeAudio": {
+      "count": 45,
+      "leg_acc": 1.0,
+      "corr_acc": 1.0,
+      "ppo_acc": 1.0
+    }
+  },
+  "categorical_confusion_matrix_4x4": [
+    [
+      48,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      50,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      71,
+      0
+    ],
+    [
+      0,
+      2,
+      0,
+      43
+    ]
+  ],
+  "categorical_accuracy": 0.9769585253456221,
+  "demographic_summary": {
+    "African_men": {
+      "count": 22,
+      "accuracy": 1.0
+    },
+    "African_women": {
+      "count": 22,
+      "accuracy": 0.9090909090909091
+    },
+    "Asian (East)_men": {
+      "count": 24,
+      "accuracy": 1.0
+    },
+    "Asian (East)_women": {
+      "count": 22,
+      "accuracy": 1.0
+    },
+    "Asian (South)_men": {
+      "count": 19,
+      "accuracy": 1.0
+    },
+    "Asian (South)_women": {
+      "count": 22,
+      "accuracy": 1.0
+    },
+    "Caucasian (American)_men": {
+      "count": 23,
+      "accuracy": 0.9565217391304348
+    },
+    "Caucasian (American)_women": {
+      "count": 23,
+      "accuracy": 1.0
+    },
+    "Caucasian (European)_men": {
+      "count": 20,
+      "accuracy": 1.0
+    },
+    "Caucasian (European)_women": {
+      "count": 20,
+      "accuracy": 1.0
+    }
+  }
+}

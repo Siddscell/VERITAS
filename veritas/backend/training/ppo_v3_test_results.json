@@ -1,0 +1,199 @@
+{
+  "evaluation_name": "PPO v3 Frozen Leakage-Controlled Evaluation",
+  "date": "2026-10-21 03:34:31",
+  "total_test_samples": 217,
+  "binary_summary": {
+    "legacy_fixed": {
+      "tp": 116,
+      "tn": 50,
+      "fp": 0,
+      "fn": 51,
+      "accuracy": 0.7649769585253456,
+      "precision": 1.0,
+      "recall": 0.6946107784431138,
+      "f1": 0.8197879858657243,
+      "specificity": 1.0,
+      "balanced_accuracy": 0.847305389221557,
+      "ci_95": [
+        0.7042557068720624,
+        0.8164798866506612
+      ]
+    },
+    "corrected_fixed": {
+      "tp": 166,
+      "tn": 46,
+      "fp": 4,
+      "fn": 1,
+      "accuracy": 0.9769585253456221,
+      "precision": 0.9764705882352941,
+      "recall": 0.9940119760479041,
+      "f1": 0.9851632047477744,
+      "specificity": 0.92,
+      "balanced_accuracy": 0.9570059880239521,
+      "ci_95": [
+        0.9472052521536347,
+        0.9901188161872676
+      ]
+    },
+    "ppo_v3": {
+      "tp": 166,
+      "tn": 42,
+      "fp": 8,
+      "fn": 1,
+      "accuracy": 0.9585253456221198,
+      "precision": 0.9540229885057471,
+      "recall": 0.9940119760479041,
+      "f1": 0.9736070381231672,
+      "specificity": 0.84,
+      "balanced_accuracy": 0.9170059880239521,
+      "ci_95": [
+        0.9230699169505954,
+        0.9780290666235087
+      ]
+    }
+  },
+  "mcnemar_test": {
+    "b_corrected_correct_ppo_wrong": 4,
+    "c_ppo_correct_corrected_wrong": 0,
+    "chi2": 2.25,
+    "p_value": 0.13361440253771584,
+    "statistically_significant": false
+  },
+  "per_category_metrics": {
+    "AUTHENTIC": {
+      "count": 50,
+      "legacy_acc": 1.0,
+      "corrected_acc": 0.92,
+      "ppo_acc": 0.84
+    },
+    "AUDIO_MANIPULATED": {
+      "count": 50,
+      "legacy_acc": 0.0,
+      "corrected_acc": 1.0,
+      "ppo_acc": 1.0
+    },
+    "VIDEO_MANIPULATED": {
+      "count": 72,
+      "legacy_acc": 0.9861111111111112,
+      "corrected_acc": 0.9861111111111112,
+      "ppo_acc": 0.9861111111111112
+    },
+    "AUDIO_VIDEO_MANIPULATED": {
+      "count": 45,
+      "legacy_acc": 1.0,
+      "corrected_acc": 1.0,
+      "ppo_acc": 1.0
+    }
+  },
+  "categorical_attribution_accuracy": 0.9354838709677419,
+  "confusion_matrix_4way": [
+    [
+      40,
+      10,
+      0,
+      0
+    ],
+    [
+      0,
+      50,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      69,
+      2
+    ],
+    [
+      0,
+      0,
+      1,
+      44
+    ]
+  ],
+  "demographic_fairness": {
+    "African (men)": {
+      "total": 22,
+      "ppo_correct": 22,
+      "corr_correct": 22,
+      "ppo_acc": 1.0,
+      "corr_acc": 1.0
+    },
+    "African (women)": {
+      "total": 22,
+      "ppo_correct": 21,
+      "corr_correct": 21,
+      "ppo_acc": 0.9545454545454546,
+      "corr_acc": 0.9545454545454546
+    },
+    "Caucasian (American) (men)": {
+      "total": 23,
+      "ppo_correct": 21,
+      "corr_correct": 22,
+      "ppo_acc": 0.9130434782608695,
+      "corr_acc": 0.9565217391304348
+    },
+    "Caucasian (American) (women)": {
+      "total": 23,
+      "ppo_correct": 23,
+      "corr_correct": 23,
+      "ppo_acc": 1.0,
+      "corr_acc": 1.0
+    },
+    "Asian (East) (men)": {
+      "total": 24,
+      "ppo_correct": 22,
+      "corr_correct": 24,
+      "ppo_acc": 0.9166666666666666,
+      "corr_acc": 1.0
+    },
+    "Asian (East) (women)": {
+      "total": 22,
+      "ppo_correct": 22,
+      "corr_correct": 22,
+      "ppo_acc": 1.0,
+      "corr_acc": 1.0
+    },
+    "Caucasian (European) (men)": {
+      "total": 20,
+      "ppo_correct": 18,
+      "corr_correct": 18,
+      "ppo_acc": 0.9,
+      "corr_acc": 0.9
+    },
+    "Caucasian (European) (women)": {
+      "total": 20,
+      "ppo_correct": 18,
+      "corr_correct": 19,
+      "ppo_acc": 0.9,
+      "corr_acc": 0.95
+    },
+    "Asian (South) (men)": {
+      "total": 19,
+      "ppo_correct": 19,
+      "corr_correct": 19,
+      "ppo_acc": 1.0,
+      "corr_acc": 1.0
+    },
+    "Asian (South) (women)": {
+      "total": 22,
+      "ppo_correct": 22,
+      "corr_correct": 22,
+      "ppo_acc": 1.0,
+      "corr_acc": 1.0
+    }
+  },
+  "latency_ms": {
+    "mean": 0.6877843317898342,
+    "std": 0.6398012681795845,
+    "p95": 0.8190399999875808
+  },
+  "diagnostic_example": null,
+  "historical_49_audit": {
+    "historical_3way_pure_test_total": 266,
+    "pure_5way_retained_test_total": 217,
+    "excluded_clips_count": 49,
+    "exclusion_reason": "Cross-partition donor edge isolation: clips paired a test source identity with a donor identity allocated to detector_train, detector_val, or fusion_train. Retaining them would violate 0% donor leakage across the 5 partitions."
+  }
+}

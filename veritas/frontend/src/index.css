@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
+
+/* ── Global Design Tokens ──────────────────────────────────────────────────── */
+
+@theme inline {
+  /* Surface palette – deep obsidian/charcoal */
+  --color-background: #07090e;
+  --color-foreground: #f1f2f4;
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-input: rgba(255, 255, 255, 0.07);
+  --color-ring: #3b82f6;
+
+  --color-card: #0d1017;
+  --color-card-foreground: #e5e7eb;
+  --color-card-border: rgba(255, 255, 255, 0.08);
+
+  --color-popover: #0d1017;
+  --color-popover-foreground: #e5e7eb;
+  --color-popover-border: rgba(255, 255, 255, 0.08);
+
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  --color-primary-border: #3b82f6;
+
+  --color-secondary: #141820;
+  --color-secondary-foreground: #e5e7eb;
+  --color-secondary-border: rgba(255, 255, 255, 0.08);
+
+  --color-muted: #141820;
+  --color-muted-foreground: #71717a;
+  --color-muted-border: rgba(255, 255, 255, 0.06);
+
+  --color-accent: #3b82f6;
+  --color-accent-foreground: #ffffff;
+  --color-accent-border: #3b82f6;
+
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-destructive-border: #ef4444;
+
+  --font-sans: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+  --font-serif: 'Inter', -apple-system, sans-serif;
+  --font-heading: 'Inter', -apple-system, sans-serif;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+:root {
+  --background: 222 47% 4%;
+  --foreground: 220 14% 95%;
+
+  --card: 222 30% 8%;
+  --card-foreground: 220 14% 90%;
+  --card-border: rgba(255, 255, 255, 0.08);
+
+  --border: rgba(255, 255, 255, 0.07);
+  --input: rgba(255, 255, 255, 0.07);
+  --ring: 217 91% 60%;
+
+  --primary: 217 91% 60%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 222 30% 10%;
+  --secondary-foreground: 220 14% 90%;
+  --muted: 222 30% 10%;
+  --muted-foreground: 217 10% 45%;
+  --accent: 217 91% 60%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --popover: 222 30% 8%;
+  --popover-foreground: 220 14% 90%;
+  --popover-border: rgba(255, 255, 255, 0.08);
+
+  --radius: 0.625rem;
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: rgba(255, 255, 255, 0.07);
+  }
+
+  html {
+    /* Lenis overwrites this via JS; native fallback for reduced-motion */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #07090e;
+    color: #e4e6ea;
+    @apply font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Override headings to use sans-serif */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-weight: 600;
+    @apply tracking-tight;
+  }
+
+  /* Reduce motion overrides */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* ── Utility helpers ────────────────────────────────────────────────────────── */
+
+/* Thin decorative horizontal rule animation */
+.rule-reveal {
+  transform-origin: left;
+  animation: rule-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes rule-in {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* Mono stat label override */
+.stat-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #52525b;
+}
+
+/* Console-style scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.18);
+}

@@ -1,0 +1,423 @@
+{
+  "evaluation_name": "PPO v3 Recomputed Consistency Audit",
+  "date": "2026-10-21 03:50:49",
+  "checkpoint": "D:\\Multi-Agent-DeepFake-Detection-And-Reasoning-main\\Multi-Agent-DeepFake-Detection-And-Reasoning-main\\veritas\\backend\\models\\ppo_fusion_policy_v3.pth",
+  "checkpoint_keys": [
+    "action_dim",
+    "actor_log_std",
+    "actor_state_dict",
+    "categories",
+    "critic_state_dict",
+    "metrics",
+    "model_state_dict",
+    "normalizer",
+    "state_dim",
+    "training_metadata",
+    "version"
+  ],
+  "cache": "D:\\Multi-Agent-DeepFake-Detection-And-Reasoning-main\\Multi-Agent-DeepFake-Detection-And-Reasoning-main\\veritas\\backend\\training\\cache\\fusion_features_lc_v3.json",
+  "manifest": "D:\\Multi-Agent-DeepFake-Detection-And-Reasoning-main\\Multi-Agent-DeepFake-Detection-And-Reasoning-main\\veritas\\backend\\training\\leakage_controlled_split_manifest.json",
+  "total_test_samples": 217,
+  "missing_from_cache": [],
+  "design_note": {
+    "dual_decision_surfaces": true,
+    "invariant_binary_eq_category_ne_authentic": "Holds for HIGH_FAKE and HIGH_AUTH zones; intentionally may fail in the UNCERTAIN deadband where predicted_category uses p_cat[0]>=0.5 while verdict remains non-DEEPFAKE.",
+    "binary_from_verdict_rule": "pred_fake = 1 iff verdict == 'DEEPFAKE'",
+    "binary_from_category_rule": "pred_fake = 1 iff predicted_category != 'AUTHENTIC'",
+    "justification": "apply_action_to_state documents a three-zone threshold with an UNCERTAIN band for operational abstention; category attribution still emits a hard 4-way label for diagnostics/reward. Metrics must never silently mix the two surfaces."
+  },
+  "discrepant_count": 2,
+  "discrepant_samples": [
+    {
+      "sample_id": 13,
+      "rel_path": "RealVideo-RealAudio\\Caucasian (American)\\men\\id04216\\00470.mp4",
+      "gt_cat": "AUTHENTIC",
+      "verdict": "UNCERTAIN / INSUFFICIENT EVIDENCE",
+      "pred_cat": "AUDIO_MANIPULATED",
+      "p_fake": 0.5088998675346375,
+      "threshold": 0.5405,
+      "verdict_zone": "UNCERTAIN"
+    },
+    {
+      "sample_id": 14,
+      "rel_path": "RealVideo-RealAudio\\Caucasian (American)\\men\\id04221\\00053.mp4",
+      "gt_cat": "AUTHENTIC",
+      "verdict": "UNCERTAIN / INSUFFICIENT EVIDENCE",
+      "pred_cat": "AUDIO_MANIPULATED",
+      "p_fake": 0.5326676368713379,
+      "threshold": 0.5398,
+      "verdict_zone": "UNCERTAIN"
+    }
+  ],
+  "invariant_satisfied_verdict_vs_category_all_samples": false,
+  "binary_summary": {
+    "legacy_fixed": {
+      "tp": 116,
+      "tn": 50,
+      "fp": 0,
+      "fn": 51,
+      "n": 217,
+      "accuracy": 0.7649769585253456,
+      "balanced_accuracy": 0.847305389221557,
+      "precision": 1.0,
+      "recall": 0.6946107784431138,
+      "f1": 0.8197879858657243,
+      "specificity": 1.0,
+      "ci_95": [
+        0.7042557068720624,
+        0.8164798866506612
+      ]
+    },
+    "corrected_fixed": {
+      "tp": 166,
+      "tn": 46,
+      "fp": 4,
+      "fn": 1,
+      "n": 217,
+      "accuracy": 0.9769585253456221,
+      "balanced_accuracy": 0.9570059880239521,
+      "precision": 0.9764705882352941,
+      "recall": 0.9940119760479041,
+      "f1": 0.9851632047477744,
+      "specificity": 0.92,
+      "ci_95": [
+        0.9472052521536347,
+        0.9901188161872676
+      ]
+    },
+    "ppo_v3_verdict_based": {
+      "tp": 166,
+      "tn": 42,
+      "fp": 8,
+      "fn": 1,
+      "n": 217,
+      "accuracy": 0.9585253456221198,
+      "balanced_accuracy": 0.9170059880239521,
+      "precision": 0.9540229885057471,
+      "recall": 0.9940119760479041,
+      "f1": 0.9736070381231672,
+      "specificity": 0.84,
+      "ci_95": [
+        0.9230699169505954,
+        0.9780290666235087
+      ]
+    },
+    "ppo_v3_category_based": {
+      "tp": 166,
+      "tn": 40,
+      "fp": 10,
+      "fn": 1,
+      "n": 217,
+      "accuracy": 0.9493087557603687,
+      "balanced_accuracy": 0.897005988023952,
+      "precision": 0.9431818181818182,
+      "recall": 0.9940119760479041,
+      "f1": 0.967930029154519,
+      "specificity": 0.8,
+      "ci_95": [
+        0.911524267752939,
+        0.9714621734377661
+      ]
+    },
+    "fixed_fusion_four_category": "unavailable"
+  },
+  "confusion_matrix_4way": {
+    "labels": [
+      "AUTHENTIC",
+      "AUDIO_MANIPULATED",
+      "VIDEO_MANIPULATED",
+      "AUDIO_VIDEO_MANIPULATED"
+    ],
+    "display_aliases": [
+      "AUTHENTIC",
+      "AUDIO_FAKE",
+      "VIDEO_FAKE",
+      "BOTH_FAKE"
+    ],
+    "matrix": [
+      [
+        40,
+        10,
+        0,
+        0
+      ],
+      [
+        0,
+        50,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        69,
+        2
+      ],
+      [
+        0,
+        0,
+        1,
+        44
+      ]
+    ],
+    "row_is_ground_truth": true,
+    "col_is_prediction": true,
+    "sum": 217
+  },
+  "categorical_attribution_accuracy": 0.9354838709677419,
+  "categorical_macro_f1": 0.9317689352900621,
+  "per_category_classification_metrics": {
+    "AUTHENTIC": {
+      "support": 50,
+      "tp_diagonal": 40,
+      "precision": 0.975609756097561,
+      "recall": 0.8,
+      "f1": 0.8791208791208791
+    },
+    "AUDIO_MANIPULATED": {
+      "support": 50,
+      "tp_diagonal": 50,
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1": 0.9090909090909091
+    },
+    "VIDEO_MANIPULATED": {
+      "support": 72,
+      "tp_diagonal": 69,
+      "precision": 0.9857142857142858,
+      "recall": 0.9583333333333334,
+      "f1": 0.971830985915493
+    },
+    "AUDIO_VIDEO_MANIPULATED": {
+      "support": 45,
+      "tp_diagonal": 44,
+      "precision": 0.9565217391304348,
+      "recall": 0.9777777777777777,
+      "f1": 0.967032967032967
+    }
+  },
+  "per_gt_category_binary_and_attribution": {
+    "AUTHENTIC": {
+      "count": 50,
+      "legacy_binary_acc": 1.0,
+      "corrected_binary_acc": 0.92,
+      "ppo_verdict_binary_acc": 0.84,
+      "ppo_category_binary_acc": 0.8,
+      "ppo_category_recall": 0.8,
+      "ppo_category_precision": 0.975609756097561,
+      "ppo_category_f1": 0.8791208791208791,
+      "ppo_cat_correct": 40
+    },
+    "AUDIO_MANIPULATED": {
+      "count": 50,
+      "legacy_binary_acc": 0.0,
+      "corrected_binary_acc": 1.0,
+      "ppo_verdict_binary_acc": 1.0,
+      "ppo_category_binary_acc": 1.0,
+      "ppo_category_recall": 1.0,
+      "ppo_category_precision": 0.8333333333333334,
+      "ppo_category_f1": 0.9090909090909091,
+      "ppo_cat_correct": 50
+    },
+    "VIDEO_MANIPULATED": {
+      "count": 72,
+      "legacy_binary_acc": 0.9861111111111112,
+      "corrected_binary_acc": 0.9861111111111112,
+      "ppo_verdict_binary_acc": 0.9861111111111112,
+      "ppo_category_binary_acc": 0.9861111111111112,
+      "ppo_category_recall": 0.9583333333333334,
+      "ppo_category_precision": 0.9857142857142858,
+      "ppo_category_f1": 0.971830985915493,
+      "ppo_cat_correct": 69
+    },
+    "AUDIO_VIDEO_MANIPULATED": {
+      "count": 45,
+      "legacy_binary_acc": 1.0,
+      "corrected_binary_acc": 1.0,
+      "ppo_verdict_binary_acc": 1.0,
+      "ppo_category_binary_acc": 1.0,
+      "ppo_category_recall": 0.9777777777777777,
+      "ppo_category_precision": 0.9565217391304348,
+      "ppo_category_f1": 0.967032967032967,
+      "ppo_cat_correct": 44
+    }
+  },
+  "mcnemar_tests": {
+    "corrected_fixed_vs_ppo_verdict": {
+      "b": 4,
+      "c": 0,
+      "chi2": 2.25,
+      "p_value": 0.13361440253771584,
+      "significant_at_0_05": false,
+      "note": "Non-significance is NOT proof of equivalence; it only fails to reject equal discordant error rates."
+    },
+    "corrected_fixed_vs_ppo_category": {
+      "b": 6,
+      "c": 0,
+      "chi2": 4.166666666666667,
+      "p_value": 0.041226833337163815,
+      "significant_at_0_05": true,
+      "note": "Non-significance is NOT proof of equivalence; it only fails to reject equal discordant error rates."
+    }
+  },
+  "demographic_fairness": {
+    "African (men)": {
+      "total": 22,
+      "ppo_verdict_correct": 22,
+      "ppo_category_correct": 22,
+      "corr_correct": 22,
+      "ppo_verdict_acc": 1.0,
+      "ppo_category_acc": 1.0,
+      "corr_acc": 1.0
+    },
+    "African (women)": {
+      "total": 22,
+      "ppo_verdict_correct": 21,
+      "ppo_category_correct": 21,
+      "corr_correct": 21,
+      "ppo_verdict_acc": 0.9545454545454546,
+      "ppo_category_acc": 0.9545454545454546,
+      "corr_acc": 0.9545454545454546
+    },
+    "Caucasian (American) (men)": {
+      "total": 23,
+      "ppo_verdict_correct": 21,
+      "ppo_category_correct": 19,
+      "corr_correct": 22,
+      "ppo_verdict_acc": 0.9130434782608695,
+      "ppo_category_acc": 0.8260869565217391,
+      "corr_acc": 0.9565217391304348
+    },
+    "Caucasian (American) (women)": {
+      "total": 23,
+      "ppo_verdict_correct": 23,
+      "ppo_category_correct": 23,
+      "corr_correct": 23,
+      "ppo_verdict_acc": 1.0,
+      "ppo_category_acc": 1.0,
+      "corr_acc": 1.0
+    },
+    "Asian (East) (men)": {
+      "total": 24,
+      "ppo_verdict_correct": 22,
+      "ppo_category_correct": 22,
+      "corr_correct": 24,
+      "ppo_verdict_acc": 0.9166666666666666,
+      "ppo_category_acc": 0.9166666666666666,
+      "corr_acc": 1.0
+    },
+    "Asian (East) (women)": {
+      "total": 22,
+      "ppo_verdict_correct": 22,
+      "ppo_category_correct": 22,
+      "corr_correct": 22,
+      "ppo_verdict_acc": 1.0,
+      "ppo_category_acc": 1.0,
+      "corr_acc": 1.0
+    },
+    "Caucasian (European) (men)": {
+      "total": 20,
+      "ppo_verdict_correct": 18,
+      "ppo_category_correct": 18,
+      "corr_correct": 18,
+      "ppo_verdict_acc": 0.9,
+      "ppo_category_acc": 0.9,
+      "corr_acc": 0.9
+    },
+    "Caucasian (European) (women)": {
+      "total": 20,
+      "ppo_verdict_correct": 18,
+      "ppo_category_correct": 18,
+      "corr_correct": 19,
+      "ppo_verdict_acc": 0.9,
+      "ppo_category_acc": 0.9,
+      "corr_acc": 0.95
+    },
+    "Asian (South) (men)": {
+      "total": 19,
+      "ppo_verdict_correct": 19,
+      "ppo_category_correct": 19,
+      "corr_correct": 19,
+      "ppo_verdict_acc": 1.0,
+      "ppo_category_acc": 1.0,
+      "corr_acc": 1.0
+    },
+    "Asian (South) (women)": {
+      "total": 22,
+      "ppo_verdict_correct": 22,
+      "ppo_category_correct": 22,
+      "corr_correct": 22,
+      "ppo_verdict_acc": 1.0,
+      "ppo_category_acc": 1.0,
+      "corr_acc": 1.0
+    }
+  },
+  "assertions": {
+    "category_binary_matches_4way_margins": true,
+    "per_category_diagonal_matches_4way": true,
+    "all_confusion_matrices_sum_to_n": true,
+    "verdict_based_matches_original_json": true
+  },
+  "old_report_comparison": {
+    "old_binary_ppo": {
+      "tp": 166,
+      "tn": 42,
+      "fp": 8,
+      "fn": 1,
+      "accuracy": 0.9585253456221198,
+      "precision": 0.9540229885057471,
+      "recall": 0.9940119760479041,
+      "f1": 0.9736070381231672,
+      "specificity": 0.84,
+      "balanced_accuracy": 0.9170059880239521,
+      "ci_95": [
+        0.9230699169505954,
+        0.9780290666235087
+      ]
+    },
+    "old_cm4": [
+      [
+        40,
+        10,
+        0,
+        0
+      ],
+      [
+        0,
+        50,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        69,
+        2
+      ],
+      [
+        0,
+        0,
+        1,
+        44
+      ]
+    ],
+    "old_per_category_called_acc_was_binary": true,
+    "old_authentic_84pct_equals_verdict_binary_acc": true,
+    "old_authentic_categorical_recall_should_be": "40/50 = 80.00%",
+    "root_cause": "Original evaluator derived binary metrics from verdict (UNCERTAIN counted as not-fake) while the 4-way matrix used predicted_category. Two AUTHENTIC clips were UNCERTAIN + AUDIO_MANIPULATED, so category-implied FP=10/TN=40 while verdict-based FP=8/TN=42. Per-category '84%' was binary accuracy on AUTHENTIC (42/50), not categorical recall (40/50)."
+  },
+  "promotion_assessment": {
+    "activate_ppo_v3_as_default": false,
+    "keep_corrected_fixed_as_default": true,
+    "rationale": [
+      "Corrected fixed binary accuracy 97.70% > PPO verdict-based 95.85% > PPO category-based 94.93%.",
+      "False positives: corrected fixed FP=4, PPO verdict FP=8, PPO category FP=10 (on n=217 authentic-capable binary labels; authentic n=50).",
+      "Recall is tied at 99.40% (verdict) / 99.40% (category) vs corrected 99.40% \u2014 high recall alone does not justify promotion.",
+      "McNemar vs corrected fixed: verdict-based p=0.1336 (not significant); category-based p=0.0412 (significant). Non-significance is not equivalence.",
+      "4-way categorical accuracy 93.55% with AUTHENTIC categorical recall 80.00% (40/50) shows material authentic over-attribution to AUDIO_MANIPULATED.",
+      "2 sample(s) violate binary_fake==(predicted_category!='AUTHENTIC') because the UNCERTAIN band allows manip categories under a non-DEEPFAKE verdict."
+    ],
+    "status": "METRICS RECONCILED \u2014 PPO NOT READY FOR PROMOTION"
+  },
+  "status": "METRICS RECONCILED \u2014 PPO NOT READY FOR PROMOTION"
+}
